@@ -116,7 +116,8 @@ export class NetViel extends LitElement {
         }
 
         main {
-          width: 100%;
+          width: calc(100% - 2em);
+          padding: 0 2em;
         }
 
         .app-footer {

@@ -17,15 +17,13 @@ export class PageMain extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String },
-      logo: { type: Function },
+      messages: { type: Object },
     };
   }
 
   constructor() {
     super();
-    this.title = 'Hello open-wc world!';
-    this.logo = html``;
+    this.messages = [];
   }
 
   clearInput() {
@@ -34,17 +32,57 @@ export class PageMain extends LitElement {
       searchfield.value = '';
     }
   }
-  
+
+  async fetchData(query) {
+    var url = "http://127.0.0.1:5000/api/query/";
+    url += encodeURIComponent(query);
+    let data = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(resp => resp.json())
+    .catch((error) => {
+        console.log(error);
+      });
+    this.messages = data;
+  }
+
+  submit() {
+    let searchfield = this.shadowRoot.getElementById('searchfield');
+    if (searchfield.value == '') {
+      this.messages = [];
+    } else {
+      this.fetchData(searchfield.value);
+    }
+  }
+
+  firstUpdated() {
+    window.addEventListener('keydown', this.keyHandler.bind(this));
+    // this.shadowRoot.getElementById('searchfield').focus();
+  }
+
+  keyHandler(e) {
+    if (e.key === "Escape") {
+      this.clearInput();
+    } else if (e.key === "Enter") {
+      this.submit();
+    }
+  }
+
+
   render() {
     return html`
-      <paper-input no-label-float label="Search" id="searchfield">
+      <paper-input no-label-float label="Search" id="searchfield" autofocus tabindex="0">
         <paper-icon-button slot="suffix" icon="clear" @click="${this.clearInput}"></paper-icon-button>
-        <paper-icon-button slot="suffix" icon="search" type="submit"></paper-icon-button>
+        <paper-icon-button slot="suffix" icon="search" @click="${this.submit}"></paper-icon-button>
       </paper-input>
 
       <div class="divider"></div>
 
-      <net-viel-list></net-viel-list>
+      <net-viel-list .messages="${this.messages}"></net-viel-list>
     `;
   }
 }

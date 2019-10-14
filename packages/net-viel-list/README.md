@@ -1,19 +1,19 @@
-# \<page-one>
+# \<net-viel-list>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
 ## Installation
 ```bash
-npm i page-one
+npm i net-viel-list
 ```
 
 ## Usage
 ```html
 <script type="module">
-  import 'page-one/page-one.js';
+  import 'net-viel-list/net-viel-list.js';
 </script>
 
-<page-one></page-one>
+<net-viel-list></net-viel-list>
 ```
 
 ## Testing using karma (if applied by author)

@@ -3,7 +3,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { openWcLogo } from './open-wc-logo.js';
 
 import '../../page-main/page-main.js';
-import '../../page-one/page-one.js';
+import '../../net-viel-list/net-viel-list.js';
 import { templateAbout } from './templateAbout.js';
 
 export class NetViel extends LitElement {
@@ -24,10 +24,6 @@ export class NetViel extends LitElement {
       case 'main':
         return html`
           <page-main .logo=${openWcLogo}></page-main>
-        `;
-      case 'pageOne':
-        return html`
-          <page-one></page-one>
         `;
       case 'about':
         return templateAbout;
@@ -57,11 +53,6 @@ export class NetViel extends LitElement {
             >
           </li>
           <li>
-            <a href="#pageOne" class=${this.__addActiveIf('pageOne')} @click=${this.__clickPageLink}
-              >Page One</a
-            >
-          </li>
-          <li>
             <a href="#about" class=${this.__addActiveIf('about')} @click=${this.__clickPageLink}
               >About</a
             >
@@ -74,8 +65,6 @@ export class NetViel extends LitElement {
       </main>
 
       <p class="app-footer">
-        🚽 Made with love by
-        <a target="_blank" rel="noopener noreferrer" href="https://github.com/open-wc">open-wc</a>.
       </p>
     `;
   }
@@ -89,8 +78,8 @@ export class NetViel extends LitElement {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          font-size: calc(10px + 2vmin);
-          color: #1a2b42;
+          font-size: 16px;
+          color: #555555;
           max-width: 960px;
           margin: 0 auto;
         }
@@ -99,6 +88,7 @@ export class NetViel extends LitElement {
           width: 100%;
           background: #fff;
           border-bottom: 1px solid #ccc;
+          display: none;
         }
 
         header ul {
@@ -126,7 +116,7 @@ export class NetViel extends LitElement {
         }
 
         main {
-          flex-grow: 1;
+          width: 100%;
         }
 
         .app-footer {

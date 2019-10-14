@@ -1,5 +1,14 @@
 {
+  "name": "net-viel-list",
+  "version": "0.0.0",
+  "description": "Webcomponent net-viel-list following open-wc recommendations",
+  "author": "net-viel-list",
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.js",
   "scripts": {
+    "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
+    "start:compatibility": "es-dev-server --app-index demo/index.html --compatibility all --node-resolve --open --watch",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
     "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
@@ -12,13 +21,14 @@
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:compatibility": "karma start --compatibility all --coverage",
     "test:compatibility:watch": "karma start --compatibility all --auto-watch=true --single-run=false",
-    "test:bs": "karma start karma.bs.config.js --compatibility all --coverage",
-    "start:build": "cd dist && es-dev-server --open",
-    "build": "rimraf dist && rollup -c rollup.config.js",
-    "start": "es-dev-server --app-index index.html --node-resolve --open --watch",
-    "start:compatibility": "es-dev-server --app-index index.html --compatibility all --node-resolve --open --watch"
+    "test:bs": "karma start karma.bs.config.js --compatibility all --coverage"
+  },
+  "dependencies": {
+    "lit-html": "^1.0.0",
+    "lit-element": "^2.0.1"
   },
   "devDependencies": {
+    "es-dev-server": "^1.5.0",
     "eslint": "^6.1.0",
     "@open-wc/eslint-config": "^1.0.0",
     "@open-wc/prettier-config": "^0.1.10",
@@ -27,11 +37,7 @@
     "@open-wc/testing-karma": "^3.0.0",
     "webpack-merge": "^4.1.5",
     "@open-wc/testing-karma-bs": "^1.0.0",
-    "@open-wc/testing": "^2.0.0",
-    "@open-wc/building-rollup": "^0.9.0",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.15.4",
-    "es-dev-server": "^1.5.0"
+    "@open-wc/testing": "^2.0.0"
   },
   "eslintConfig": {
     "extends": [
@@ -51,20 +57,5 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "name": "net-viel",
-  "version": "0.0.0",
-  "description": "Webcomponent net-viel following open-wc recommendations",
-  "author": "net-viel",
-  "license": "MIT",
-  "dependencies": {
-    "@material/textfield": "^3.2.0",
-    "@polymer/iron-form": "^3.0.1",
-    "@polymer/iron-icons": "^3.0.1",
-    "@polymer/iron-list": "^3.0.2",
-    "@polymer/paper-icon-button": "^3.0.2",
-    "@polymer/paper-input": "^3.0.2",
-    "lit-element": "^2.0.1",
-    "lit-html": "^1.0.0"
   }
 }

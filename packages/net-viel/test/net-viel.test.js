@@ -14,14 +14,14 @@ describe('NetViel', () => {
     `);
   });
 
-  it('renders page-one if page property is set to pageOne', async () => {
-    const el = await fixture(html`
-      <net-viel page="pageOne"></net-viel>
-    `);
-    expect(el.shadowRoot.querySelector('main')).lightDom.to.equal(`
-      <page-one></page-one>
-    `);
-  });
+  // it('renders page-one if page property is set to pageOne', async () => {
+  //   const el = await fixture(html`
+  //     <net-viel page="pageOne"></net-viel>
+  //   `);
+  //   expect(el.shadowRoot.querySelector('main')).lightDom.to.equal(`
+  //     <page-one></page-one>
+  //   `);
+  // });
 
   it('changes the page if a menu link gets clicked', async () => {
     const el = await fixture(html`

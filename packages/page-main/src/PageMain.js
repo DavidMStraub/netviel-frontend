@@ -1,25 +1,16 @@
 import { html, css, LitElement } from 'lit-element';
+import "@polymer/paper-input/paper-input.js";
+import "@polymer/paper-icon-button/paper-icon-button.js";
+import "@polymer/iron-icons/iron-icons.js";
 
 export class PageMain extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
-        padding: 25px;
-        text-align: center;
       }
 
-      svg {
-        animation: app-logo-spin infinite 20s linear;
-      }
-
-      @keyframes app-logo-spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
+      div.divider {
+        margin-bottom: 1em;
       }
     `;
   }
@@ -37,19 +28,23 @@ export class PageMain extends LitElement {
     this.logo = html``;
   }
 
+  clearInput() {
+    let searchfield = this.shadowRoot.getElementById('searchfield');
+    if (searchfield) {
+      searchfield.value = '';
+    }
+  }
+  
   render() {
     return html`
-      ${this.logo}
-      <h1>${this.title}</h1>
-      <p>Edit <code>src/MyApp.js</code> and save to reload.</p>
-      <a
-        class="app-link"
-        href="https://open-wc.org/developing/#examples"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Code examples
-      </a>
+      <paper-input no-label-float label="Search" id="searchfield">
+        <paper-icon-button slot="suffix" icon="clear" @click="${this.clearInput}"></paper-icon-button>
+        <paper-icon-button slot="suffix" icon="search" type="submit"></paper-icon-button>
+      </paper-input>
+
+      <div class="divider"></div>
+
+      <net-viel-list></net-viel-list>
     `;
   }
 }

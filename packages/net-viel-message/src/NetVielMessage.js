@@ -1,5 +1,8 @@
 import { html, css, LitElement } from 'lit-element';
 import '@polymer/iron-list/iron-list.js';
+import "@polymer/paper-icon-button/paper-icon-button.js";
+import "@polymer/iron-icons/iron-icons.js";
+
 
 export class NetVielMessage extends LitElement {
   static get styles() {
@@ -65,6 +68,17 @@ export class NetVielMessage extends LitElement {
       a:link, a:visited, a:hover, a:active {
         text-decoration: None;
       }
+
+      div.download {
+        float: right;
+        position: relative;
+        bottom: 0.4em;
+        margin-right: 0.5em;
+      }
+
+      div.download paper-icon-button {
+        color: #888888;
+      }
     `;
   }
 
@@ -105,6 +119,11 @@ export class NetVielMessage extends LitElement {
     return html`
     <div class="message-container">
       <p class="date">${this.prettyDate(Date.parse(this.message.date) / 1000)}</p>
+      <div class="download">
+        <a href="http://127.0.0.1:5000/api/message/${this.message.message_id}">
+          <paper-icon-button icon="file-download"></paper-icon-button>
+        </a>
+      </div>
       <p class="from">${this.message.from}</p>
       <p class="to">To: ${this.message.to}</p>
       ${this.message.cc ? html`<p class="to">CC: ${this.message.cc}</p>` : ''}
@@ -117,8 +136,8 @@ export class NetVielMessage extends LitElement {
         <h3>Attachments</h3>
         <ul>
         ${this.message.attachments.map((attachment, i) => {
-          return html`<li><a href="http://127.0.0.1:5000/api/attachment/${this.message.message_id}/${i}" target="_new">${attachment.filename}</a></li>`;
-        })}
+      return html`<li><a href="http://127.0.0.1:5000/api/attachment/${this.message.message_id}/${i}" target="_new">${attachment.filename}</a></li>`;
+    })}
         </ul>
       </div>` : ''}
     </div>

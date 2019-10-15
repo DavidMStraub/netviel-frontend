@@ -44,6 +44,25 @@ export class NetVielMessage extends LitElement {
         color: #555555;
         font-family: Roboto;
       }
+
+      .attachments h3 {
+        font-size: 1.4em;
+        font-weight: 300;
+        margin-bottom: 0.5em;
+      }
+
+      .attachments ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+
+      a:link, a:visited {
+        color: #3366aa;
+      }
+      a:link, a:visited, a:hover, a:active {
+        text-decoration: None;
+      }
     `;
   }
 
@@ -81,6 +100,7 @@ export class NetVielMessage extends LitElement {
   }
 
   render() {
+    console.log(this.message.attachments.length);
     return html`
     <div class="message-container">
       <p class="date">${this.prettyDate(Date.parse(this.message.date) / 1000)}</p>
@@ -92,7 +112,14 @@ export class NetVielMessage extends LitElement {
         <div id="content-html"></div>
         <div id="content-text"></div>
       </div>
-      ${this.message.cc ? html`<p class="attachments">${this.message.attachments}</p>` : ''}
+      ${this.message.attachments.length > 0 ? html`<div class="attachments">
+        <h3>Attachments</h3>
+        <ul>
+        ${this.message.attachments.map((attachment, i) => {
+          return html`<li><a href="http://127.0.0.1:5000/api/attachment/${this.message.message_id}/${i}" target="_new">${attachment.filename}</a></li>`;
+        })}
+        </ul>
+      </div>` : ''}
     </div>
     `;
   }

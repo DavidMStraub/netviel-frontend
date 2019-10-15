@@ -12,6 +12,7 @@ export class NetVielMessage extends LitElement {
         margin-bottom: 1em;
         padding-top: 1em;
         padding-bottom: 2em;
+        max-width: 100%;
       }
 
       .from {
@@ -43,6 +44,7 @@ export class NetVielMessage extends LitElement {
         font-size: 16px;
         color: #555555;
         font-family: Roboto;
+        white-space: pre-wrap;
       }
 
       .attachments h3 {
@@ -100,7 +102,6 @@ export class NetVielMessage extends LitElement {
   }
 
   render() {
-    console.log(this.message.attachments.length);
     return html`
     <div class="message-container">
       <p class="date">${this.prettyDate(Date.parse(this.message.date) / 1000)}</p>

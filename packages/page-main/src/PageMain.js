@@ -27,6 +27,12 @@ export class PageMain extends LitElement {
     this.threads = [];
   }
 
+  pushState() {
+    let searchfield = this.shadowRoot.getElementById('searchfield');
+    history.pushState({search: searchfield.value, thread: this.thread}, "");
+    console.log('push', {search: searchfield.value, thread: this.thread});
+  }
+
   clearInput() {
     let searchfield = this.shadowRoot.getElementById('searchfield');
     if (searchfield) {
@@ -36,6 +42,7 @@ export class PageMain extends LitElement {
       this.threads = [];
     }
     this.thread = undefined;
+    this.pushState();
   }
 
   async fetchData(query) {
@@ -54,11 +61,12 @@ export class PageMain extends LitElement {
       });
     this.threads = data;
     this.thread = undefined;
+    this.pushState();
   }
 
   submit() {
     let searchfield = this.shadowRoot.getElementById('searchfield');
-    if (searchfield.value == '') {
+    if (searchfield.value == '' || searchfield.value == undefined) {
       this.threads = [];
     } else {
       this.fetchData(searchfield.value);
@@ -67,17 +75,39 @@ export class PageMain extends LitElement {
 
   firstUpdated() {
     window.addEventListener('keydown', this.keyHandler.bind(this));
+    window.addEventListener('popstate', this.popHandler.bind(this));
     // this.shadowRoot.getElementById('searchfield').focus();
     this.addEventListener('thread-selected', (e) => {
       this.thread = e.detail.thread;
+      this.pushState();
     });
+    this.pushState();
+  }
+
+  popHandler(e) {
+    console.log('pop', e.state);
+    let searchfield = this.shadowRoot.getElementById('searchfield');
+    if (e.state.search == undefined) {
+      searchfield.value = '';
+    } else {
+      searchfield.value = e.state.search;
+    }
+    this.thread = e.state.thread;
+    // if (this.thread == undefined) {
+    //   this.submit();
+    // }
   }
 
   keyHandler(e) {
     if (e.key === "Escape") {
       this.clearInput();
     } else if (e.key === "Enter") {
-      this.submit();
+      let searchfield = this.shadowRoot.getElementById('searchfield');
+      if (searchfield.focused) {
+        this.submit();
+      } else {
+        searchfield.focus();
+      }
     }
   }
 

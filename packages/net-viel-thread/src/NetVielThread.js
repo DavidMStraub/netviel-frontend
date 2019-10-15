@@ -72,7 +72,7 @@ export class NetVielThread extends LitElement {
       ` : ''}
     </h2>
     ${this._messages.map(message => {
-      return html`<net-viel-message .message="${message}"</net-viel-message>`;
+      return html`<net-viel-message .message="${message}"></net-viel-message>`;
     })}
     `;
   }

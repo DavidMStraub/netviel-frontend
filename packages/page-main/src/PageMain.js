@@ -29,8 +29,7 @@ export class PageMain extends LitElement {
 
   pushState() {
     let searchfield = this.shadowRoot.getElementById('searchfield');
-    history.pushState({search: searchfield.value, thread: this.thread}, "");
-    console.log('push', {search: searchfield.value, thread: this.thread});
+    history.pushState({ search: searchfield.value, thread: this.thread }, "");
   }
 
   clearInput() {
@@ -85,7 +84,6 @@ export class PageMain extends LitElement {
   }
 
   popHandler(e) {
-    console.log('pop', e.state);
     let searchfield = this.shadowRoot.getElementById('searchfield');
     if (e.state.search == undefined) {
       searchfield.value = '';

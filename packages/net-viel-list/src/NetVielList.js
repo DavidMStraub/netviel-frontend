@@ -6,8 +6,8 @@ export class NetVielList extends LitElement {
     return css`
       :host {
       }
-      
-      .message-container {
+
+      .thread-container {
         padding: 0.3em 0;
         border-bottom: 1px solid #e3e3e3;
       }
@@ -39,44 +39,54 @@ export class NetVielList extends LitElement {
 
   static get properties() {
     return {
-      messages: {type: Object},
+      threads: { type: Object },
     };
   }
 
   constructor() {
     super();
-    this.messages = [];
+    this.threads = [];
   }
 
   prettyDate(t) {
-      var t_now = Date.now()
-      var date = new Date(t * 1000)
-      if (t_now - t < 24 * 3600) {
-        return date.toLocaleTimeString();
-      } else if (t_now - t < 24 * 3600 * 365) {
-        return date.toLocaleDateString();
-      } else {
-        let options={day: 'numeric', month: 'numeric'};
-        return date.toLocaleDateString(undefined, options);
+    var t_now = Date.now()
+    var date = new Date(t * 1000)
+    if (t_now - t < 24 * 3600) {
+      return date.toLocaleTimeString();
+    } else if (t_now - t < 24 * 3600 * 365) {
+      return date.toLocaleDateString();
+    } else {
+      let options = { day: 'numeric', month: 'numeric' };
+      return date.toLocaleDateString(undefined, options);
     }
+  }  
+
+  clickHandler(e) {
+    const targetId = e.target.parentElement.getAttribute('id');
+    if (targetId) {
+      this.dispatchEvent(new CustomEvent('thread-selected',
+        {bubbles: true, composed: true, detail: {thread: targetId}})
+      );
+    }
+
   }
 
   render() {
-    var messages = this.messages;
-    var _prettyDate =  this.prettyDate;  // binding to correct 'this'
-    messages.map(message => {
-      message.pretty_time = _prettyDate(message.newest_date);
-      return message;
+    var threads = this.threads;
+    var _prettyDate = this.prettyDate;  // binding to correct 'this'
+    threads.map(thread => {
+      thread.pretty_time = _prettyDate(thread.newest_date);
+      return thread;
     })
 
     return html`
-    <iron-list .items=${messages} as="message">
+    <iron-list .items=${threads} as="thread" @click="${this.clickHandler}">
       <template>
-        <div class="message-container">
-          <span class="from">[[message.authors]]
+        <div class="thread-container" id="[[thread.thread_id]]">
+          <span class="from">[[thread.authors]]  ([[thread.total_messages]])
           </span><!--
-          --><span class="subject">[[message.subject]]</span><!--
-          --><span class="time">[[message.pretty_time]]</span>
+          --><span class="subject">[[thread.subject]]</span><!--
+          --><span class="time">[[thread.pretty_time]]</span>
         </div>
       </template>
     </iron-list>

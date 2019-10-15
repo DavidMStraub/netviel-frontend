@@ -17,13 +17,14 @@ export class PageMain extends LitElement {
 
   static get properties() {
     return {
-      messages: { type: Object },
+      threads: { type: Object },
+      thread: { type: String },
     };
   }
 
   constructor() {
     super();
-    this.messages = [];
+    this.threads = [];
   }
 
   clearInput() {
@@ -31,6 +32,10 @@ export class PageMain extends LitElement {
     if (searchfield) {
       searchfield.value = '';
     }
+    if (!this.thread) {
+      this.threads = [];
+    }
+    this.thread = undefined;
   }
 
   async fetchData(query) {
@@ -43,17 +48,18 @@ export class PageMain extends LitElement {
         'Content-Type': 'application/json',
       }
     })
-    .then(resp => resp.json())
-    .catch((error) => {
+      .then(resp => resp.json())
+      .catch((error) => {
         console.log(error);
       });
-    this.messages = data;
+    this.threads = data;
+    this.thread = undefined;
   }
 
   submit() {
     let searchfield = this.shadowRoot.getElementById('searchfield');
     if (searchfield.value == '') {
-      this.messages = [];
+      this.threads = [];
     } else {
       this.fetchData(searchfield.value);
     }
@@ -62,6 +68,9 @@ export class PageMain extends LitElement {
   firstUpdated() {
     window.addEventListener('keydown', this.keyHandler.bind(this));
     // this.shadowRoot.getElementById('searchfield').focus();
+    this.addEventListener('thread-selected', (e) => {
+      this.thread = e.detail.thread;
+    });
   }
 
   keyHandler(e) {
@@ -82,7 +91,11 @@ export class PageMain extends LitElement {
 
       <div class="divider"></div>
 
-      <net-viel-list .messages="${this.messages}"></net-viel-list>
+      ${this.thread == undefined ? html`
+      <net-viel-list .threads="${this.threads}"></net-viel-list>
+      ` : html`
+      <net-viel-thread thread="${this.thread}"></net-viel-thread>
+      `}
     `;
   }
 }

@@ -4,6 +4,7 @@ import { openWcLogo } from './open-wc-logo.js';
 
 import '../../page-main/page-main.js';
 import '../../net-viel-list/net-viel-list.js';
+import '../../net-viel-thread/net-viel-thread.js';
 import { templateAbout } from './templateAbout.js';
 
 export class NetViel extends LitElement {

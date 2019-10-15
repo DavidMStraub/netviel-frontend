@@ -49,14 +49,14 @@ export class NetVielList extends LitElement {
   }
 
   prettyDate(t) {
-    var t_now = Date.now()
+    var t_now = Date.now() / 1000
     var date = new Date(t * 1000)
     if (t_now - t < 24 * 3600) {
       return date.toLocaleTimeString();
-    } else if (t_now - t < 24 * 3600 * 365) {
+    } else if (t_now - t > 24 * 3600 * 365) {
       return date.toLocaleDateString();
     } else {
-      let options = { day: 'numeric', month: 'numeric' };
+      let options = { day: 'numeric', month: 'numeric'};
       return date.toLocaleDateString(undefined, options);
     }
   }  
@@ -76,6 +76,7 @@ export class NetVielList extends LitElement {
     var _prettyDate = this.prettyDate;  // binding to correct 'this'
     threads.map(thread => {
       thread.pretty_time = _prettyDate(thread.newest_date);
+      thread.authors = thread.authors.replace('| ', ', ');
       return thread;
     })
 

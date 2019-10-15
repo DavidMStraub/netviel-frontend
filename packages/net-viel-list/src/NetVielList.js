@@ -34,6 +34,10 @@ export class NetVielList extends LitElement {
         width: 5em;
         text-align: right;
       }
+
+      .gray {
+        opacity: 0.6;
+      }
     `;
   }
 
@@ -56,16 +60,16 @@ export class NetVielList extends LitElement {
     } else if (t_now - t > 24 * 3600 * 365) {
       return date.toLocaleDateString();
     } else {
-      let options = { day: 'numeric', month: 'numeric'};
+      let options = { day: 'numeric', month: 'numeric' };
       return date.toLocaleDateString(undefined, options);
     }
-  }  
+  }
 
   clickHandler(e) {
     const targetId = e.target.parentElement.getAttribute('id');
     if (targetId) {
       this.dispatchEvent(new CustomEvent('thread-selected',
-        {bubbles: true, composed: true, detail: {thread: targetId}})
+        { bubbles: true, composed: true, detail: { thread: targetId } })
       );
     }
 
@@ -77,6 +81,7 @@ export class NetVielList extends LitElement {
     threads.map(thread => {
       thread.pretty_time = _prettyDate(thread.newest_date);
       thread.authors = thread.authors.replace('| ', ', ');
+      thread.more_than_one = thread.total_messages > 1 ? true : false;
       return thread;
     })
 
@@ -84,7 +89,10 @@ export class NetVielList extends LitElement {
     <iron-list .items=${threads} as="thread" @click="${this.clickHandler}">
       <template>
         <div class="thread-container" id="[[thread.thread_id]]">
-          <span class="from">[[thread.authors]]  ([[thread.total_messages]])
+          <span class="from">[[thread.authors]]
+            <template is="dom-if" if="{{thread.more_than_one}}">
+              <span class="gray">([[thread.total_messages]])</span>
+            </template>
           </span><!--
           --><span class="subject">[[thread.subject]]</span><!--
           --><span class="time">[[thread.pretty_time]]</span>

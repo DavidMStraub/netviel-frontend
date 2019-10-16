@@ -3,6 +3,7 @@ import "@polymer/paper-input/paper-input.js";
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "@polymer/iron-icons/iron-icons.js";
 import { searchHints } from './searchHints.js';
+import { apiHost } from "../../net-viel/src/NetViel.js"
 
 
 export class PageMain extends LitElement {
@@ -21,7 +22,7 @@ export class PageMain extends LitElement {
       }   
 
       #search-hints pre, #search-hints code {
-        font-family: Roboto Mono;
+        font-family: Roboto Mono, monospace;
         font-size: 0.9em;
       }
       #search-hints {
@@ -81,7 +82,7 @@ export class PageMain extends LitElement {
   }
 
   async fetchData(query) {
-    var url = "http://127.0.0.1:5000/api/query/";
+    var url= apiHost() + "/api/query/";
     url += encodeURIComponent(query);
     let data = await fetch(url, {
       method: 'GET',

@@ -1,6 +1,7 @@
 import { html, css, LitElement } from 'lit-element';
 import '@polymer/iron-list/iron-list.js';
 import '../../net-viel-message/net-viel-message.js';
+import { apiHost } from "../../net-viel/src/NetViel.js"
 
 export class NetVielThread extends LitElement {
   static get styles() {
@@ -42,7 +43,7 @@ export class NetVielThread extends LitElement {
     if (this.thread == undefined) {
       return;
     }
-    var url = "http://127.0.0.1:5000/api/thread/";
+    var url = apiHost() + "/api/thread/";
     url += this.thread;
     let data = await fetch(url, {
       method: 'GET',

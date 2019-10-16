@@ -3,6 +3,7 @@ import '@polymer/iron-list/iron-list.js';
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "@polymer/iron-icons/iron-icons.js";
 import { prettyDate } from "../../net-viel-list/src/NetVielList.js"
+import { apiHost } from "../../net-viel/src/NetViel.js"
 
 
 export class NetVielMessage extends LitElement {
@@ -108,7 +109,7 @@ export class NetVielMessage extends LitElement {
     <div class="message-container">
       <p class="date">${prettyDate(Date.parse(this.message.date) / 1000)}</p>
       <div class="download">
-        <a href="http://127.0.0.1:5000/api/message/${this.message.message_id}">
+        <a href="${apiHost()}/api/message/${this.message.message_id}">
           <paper-icon-button icon="file-download"></paper-icon-button>
         </a>
       </div>
@@ -124,7 +125,7 @@ export class NetVielMessage extends LitElement {
         <h3>Attachments</h3>
         <ul>
         ${this.message.attachments.map((attachment, i) => {
-      return html`<li><a href="http://127.0.0.1:5000/api/attachment/${this.message.message_id}/${i}" target="_new">${attachment.filename}</a></li>`;
+      return html`<li><a href="${apiHost()}/api/attachment/${this.message.message_id}/${i}" target="_new">${attachment.filename}</a></li>`;
     })}
         </ul>
       </div>` : ''}

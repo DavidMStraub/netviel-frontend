@@ -134,3 +134,14 @@ export class NetViel extends LitElement {
     ];
   }
 }
+
+export function apiHost() {
+  // This function returns the host name.
+  // The string 'ENV' is replaced by 'production' in rollup.config.js
+  // at build time. The second option is for development.
+  if ('ENV' == 'production') {
+    return "";
+  } else {
+    return "http://127.0.0.1:5000";
+  }
+}

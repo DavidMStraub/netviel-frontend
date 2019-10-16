@@ -91,9 +91,7 @@ export class PageMain extends LitElement {
       searchfield.value = e.state.search;
     }
     this.thread = e.state.thread;
-    // if (this.thread == undefined) {
-    //   this.submit();
-    // }
+    searchfield.focus();
   }
 
   keyHandler(e) {

@@ -2,6 +2,7 @@ import { html, css, LitElement } from 'lit-element';
 import '@polymer/iron-list/iron-list.js';
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "@polymer/iron-icons/iron-icons.js";
+import { prettyDate } from "../../net-viel-list/src/NetVielList.js"
 
 
 export class NetVielMessage extends LitElement {
@@ -93,19 +94,6 @@ export class NetVielMessage extends LitElement {
     this.message = {};
   }
 
-  prettyDate(t) {
-    var t_now = Date.now()
-    var date = new Date(t * 1000)
-    if (t_now - t < 24 * 3600) {
-      return date.toLocaleTimeString();
-    } else if (t_now - t < 24 * 3600 * 365) {
-      return date.toLocaleDateString();
-    } else {
-      let options = { day: 'numeric', month: 'numeric' };
-      return date.toLocaleDateString(undefined, options);
-    }
-  }
-
   updated() {
     if (this.message.content_type == 'text/html') {
       this.shadowRoot.querySelector('#content-html').innerHTML = this.message.content;
@@ -118,7 +106,7 @@ export class NetVielMessage extends LitElement {
   render() {
     return html`
     <div class="message-container">
-      <p class="date">${this.prettyDate(Date.parse(this.message.date) / 1000)}</p>
+      <p class="date">${prettyDate(Date.parse(this.message.date) / 1000)}</p>
       <div class="download">
         <a href="http://127.0.0.1:5000/api/message/${this.message.message_id}">
           <paper-icon-button icon="file-download"></paper-icon-button>

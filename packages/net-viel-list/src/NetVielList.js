@@ -52,19 +52,6 @@ export class NetVielList extends LitElement {
     this.threads = [];
   }
 
-  prettyDate(t) {
-    var t_now = Date.now() / 1000
-    var date = new Date(t * 1000)
-    if (t_now - t < 24 * 3600) {
-      return date.toLocaleTimeString();
-    } else if (t_now - t > 24 * 3600 * 365) {
-      return date.toLocaleDateString();
-    } else {
-      let options = { day: 'numeric', month: 'numeric' };
-      return date.toLocaleDateString(undefined, options);
-    }
-  }
-
   clickHandler(e) {
     const targetId = e.target.parentElement.getAttribute('id');
     if (targetId) {
@@ -77,9 +64,8 @@ export class NetVielList extends LitElement {
 
   render() {
     var threads = this.threads;
-    var _prettyDate = this.prettyDate;  // binding to correct 'this'
     threads.map(thread => {
-      thread.pretty_time = _prettyDate(thread.newest_date);
+      thread.pretty_time = prettyDate(thread.newest_date);
       thread.authors = thread.authors.replace('| ', ', ');
       thread.more_than_one = thread.total_messages > 1 ? true : false;
       return thread;
@@ -100,5 +86,19 @@ export class NetVielList extends LitElement {
       </template>
     </iron-list>
     `;
+  }
+}
+
+
+export function prettyDate(t) {
+  var t_now = Date.now() / 1000
+  var date = new Date(t * 1000)
+  if (t_now - t < 24 * 3600) {
+    return date.toLocaleTimeString();
+  } else if (t_now - t > 24 * 3600 * 365) {
+    return date.toLocaleDateString();
+  } else {
+    let options = { day: 'numeric', month: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
   }
 }

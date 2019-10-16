@@ -2,6 +2,8 @@ import { html, css, LitElement } from 'lit-element';
 import "@polymer/paper-input/paper-input.js";
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "@polymer/iron-icons/iron-icons.js";
+import { searchHints } from './searchHints.js';
+
 
 export class PageMain extends LitElement {
   static get styles() {
@@ -12,7 +14,41 @@ export class PageMain extends LitElement {
       div.divider {
         margin-bottom: 1em;
       }
-    `;
+
+      #search-hints h2 {
+        font-size: 1.8em;
+        font-weight: 300;
+      }   
+
+      #search-hints pre, #search-hints code {
+        font-family: Roboto Mono;
+        font-size: 0.9em;
+      }
+      #search-hints {
+        margin-top: 3em;
+      }
+      #search-hints code {
+        background-color: #f0f0f0;
+        font-weight: 400;
+        border-radius: 0.2em;
+        padding: 0.1em 0.3em;
+      }
+      #search-hints pre {
+        font-weight: 400;
+        margin: 1em 0;
+        opacity: 0.9;
+        padding: 1em 1.4em;
+        border: 1px solid #eaeaea;
+        border-radius: 0.5em;
+      }
+
+      a:link, a:visited {
+        color: #3366aa;
+      }
+      a:link, a:visited, a:hover, a:active {
+        text-decoration: None;
+      }
+      `;
   }
 
   static get properties() {
@@ -116,6 +152,8 @@ export class PageMain extends LitElement {
       </paper-input>
 
       <div class="divider"></div>
+
+      ${this.thread == undefined && this.threads.length == 0 ? searchHints : ''}
 
       ${this.thread == undefined ? html`
       <net-viel-list .threads="${this.threads}"></net-viel-list>

@@ -1,6 +1,19 @@
 import { html, css, LitElement } from 'lit-element';
 import '@polymer/iron-list/iron-list.js';
 
+export function prettyDate(t) {
+  const tNow = Date.now() / 1000;
+  const date = new Date(t * 1000);
+  if (tNow - t < 24 * 3600) {
+    return date.toLocaleTimeString();
+  }
+  if (tNow - t > 24 * 3600 * 365) {
+    return date.toLocaleDateString();
+  }
+  const options = { day: 'numeric', month: 'numeric' };
+  return date.toLocaleDateString(undefined, options);
+}
+
 export class NetVielList extends LitElement {
   static get styles() {
     return css`
@@ -12,7 +25,9 @@ export class NetVielList extends LitElement {
         border-bottom: 1px solid #e3e3e3;
       }
 
-      .from, .subject, .time {
+      .from,
+      .subject,
+      .time {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -55,50 +70,42 @@ export class NetVielList extends LitElement {
   clickHandler(e) {
     const targetId = e.target.parentElement.getAttribute('id');
     if (targetId) {
-      this.dispatchEvent(new CustomEvent('thread-selected',
-        { bubbles: true, composed: true, detail: { thread: targetId } })
+      this.dispatchEvent(
+        new CustomEvent('thread-selected', {
+          bubbles: true,
+          composed: true,
+          detail: { thread: targetId },
+        }),
       );
     }
-
   }
 
   render() {
-    var threads = this.threads;
+    const { threads } = this;
     threads.map(thread => {
-      thread.pretty_time = prettyDate(thread.newest_date);
-      thread.authors = thread.authors.replace('| ', ', ');
-      thread.more_than_one = thread.total_messages > 1 ? true : false;
-      return thread;
-    })
+      const newThread = thread;
+      newThread.pretty_time = prettyDate(thread.newest_date);
+      newThread.authors = thread.authors.replace('| ', ', ');
+      newThread.more_than_one = thread.total_messages > 1;
+      return newThread;
+    });
 
     return html`
-    <iron-list .items=${threads} as="thread" @click="${this.clickHandler}">
-      <template>
-        <div class="thread-container" id="[[thread.thread_id]]">
-          <span class="from">[[thread.authors]]
-            <template is="dom-if" if="{{thread.more_than_one}}">
-              <span class="gray">([[thread.total_messages]])</span>
-            </template>
-          </span><!--
-          --><span class="subject">[[thread.subject]]</span><!--
+      <iron-list .items=${threads} as="thread" @click="${this.clickHandler}">
+        <template>
+          <div class="thread-container" id="[[thread.thread_id]]">
+            <span class="from"
+              >[[thread.authors]]
+              <template is="dom-if" if="{{thread.more_than_one}}">
+                <span class="gray">([[thread.total_messages]])</span>
+              </template> </span
+            ><!--
+          --><span class="subject">[[thread.subject]]</span
+            ><!--
           --><span class="time">[[thread.pretty_time]]</span>
-        </div>
-      </template>
-    </iron-list>
+          </div>
+        </template>
+      </iron-list>
     `;
-  }
-}
-
-
-export function prettyDate(t) {
-  var t_now = Date.now() / 1000
-  var date = new Date(t * 1000)
-  if (t_now - t < 24 * 3600) {
-    return date.toLocaleTimeString();
-  } else if (t_now - t > 24 * 3600 * 365) {
-    return date.toLocaleDateString();
-  } else {
-    let options = { day: 'numeric', month: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
   }
 }

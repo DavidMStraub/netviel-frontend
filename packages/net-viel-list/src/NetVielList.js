@@ -42,16 +42,17 @@ export class NetVielList extends LitElement {
       }
 
       .subject {
-        width: calc(100% - 20em);
+        width: calc(100% - 21em);
         padding-right: 1em;
       }
 
       .from {
         width: 12em;
-        padding-right: 1em;
+        padding: 0 1em 0 0.5em;
       }
 
       .time {
+        padding-right: 0.5em;
         width: 6em;
         text-align: right;
       }

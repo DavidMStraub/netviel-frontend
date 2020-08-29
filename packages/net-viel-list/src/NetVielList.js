@@ -37,7 +37,7 @@ export class NetVielList extends LitElement {
       }
 
       .subject {
-        width: calc(100% - 19em);
+        width: calc(100% - 20em);
         padding-right: 1em;
       }
 
@@ -47,7 +47,7 @@ export class NetVielList extends LitElement {
       }
 
       .time {
-        width: 5em;
+        width: 6em;
         text-align: right;
       }
 

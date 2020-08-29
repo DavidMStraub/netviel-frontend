@@ -23,6 +23,7 @@ export class NetVielList extends LitElement {
       .thread-container {
         padding: 0.3em 0;
         border-bottom: 1px solid #e3e3e3;
+        cursor: pointer;
       }
 
       .from,

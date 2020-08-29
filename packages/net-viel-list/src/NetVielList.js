@@ -26,6 +26,10 @@ export class NetVielList extends LitElement {
         cursor: pointer;
       }
 
+      .thread-container:hover {
+        background-color: #f2f2f2;
+      }
+
       .from,
       .subject,
       .time {

@@ -36,6 +36,7 @@ export class NetVielList extends LitElement {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        vertical-align: middle;
         white-space: nowrap;
         padding: 0;
       }

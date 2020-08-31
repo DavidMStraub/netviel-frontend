@@ -23,6 +23,11 @@ export class NetVielList extends LitElement {
       .thread-container {
         padding: 0.3em 0;
         border-bottom: 1px solid #e3e3e3;
+        cursor: pointer;
+      }
+
+      .thread-container:hover {
+        background-color: #f2f2f2;
       }
 
       .from,
@@ -31,22 +36,24 @@ export class NetVielList extends LitElement {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        vertical-align: middle;
         white-space: nowrap;
         padding: 0;
       }
 
       .subject {
-        width: calc(100% - 19em);
+        width: calc(100% - 21em);
         padding-right: 1em;
       }
 
       .from {
         width: 12em;
-        padding-right: 1em;
+        padding: 0 1em 0 0.5em;
       }
 
       .time {
-        width: 5em;
+        padding-right: 0.5em;
+        width: 6em;
         text-align: right;
       }
 
